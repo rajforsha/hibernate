@@ -2,11 +2,14 @@ package com.raj.shashi.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -26,10 +29,17 @@ public class Employee {
 
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Department department;
 
-    @OneToMany
+    /**
+     * <p>
+     * EMP_PROJ table will be created which will have the mapping of empId and
+     * ProjectIds
+     * </p>
+     */
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "EMP_PROJ", joinColumns = { @JoinColumn(name = "id") })
     private List<Project> projectList;
 
     public long getId() {
@@ -67,7 +77,7 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee [id=" + this.id + ", empoloyeeName=" + this.empoloyeeName + ", department=" + this.department
-                + "]";
+                + ", projectList=" + this.projectList + "]";
     }
 
 }

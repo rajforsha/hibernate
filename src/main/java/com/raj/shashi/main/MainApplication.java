@@ -59,10 +59,6 @@ public class MainApplication {
 
         Transaction t = session.beginTransaction();
 
-        projectList.stream().forEach(proj -> {
-            session.save(proj);
-        });
-        session.save(d);
         session.save(e);
 
         t.commit();
