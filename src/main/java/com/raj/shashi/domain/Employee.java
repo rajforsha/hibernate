@@ -8,8 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -39,8 +40,16 @@ public class Employee {
      * </p>
      */
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "EMP_PROJ", joinColumns = { @JoinColumn(name = "id") })
+    @JoinTable(name = "EMP_PROJ")
     private List<Project> projectList;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "EMP_COMP")
+    private Company company;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "EMP_LAP")
+    private List<Laptop> laptop;
 
     public long getId() {
         return this.id;
@@ -74,10 +83,26 @@ public class Employee {
         this.projectList = projectList;
     }
 
+    public Company getCompany() {
+        return this.company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public List<Laptop> getLaptop() {
+        return this.laptop;
+    }
+
+    public void setLaptop(List<Laptop> laptop) {
+        this.laptop = laptop;
+    }
+
     @Override
     public String toString() {
         return "Employee [id=" + this.id + ", empoloyeeName=" + this.empoloyeeName + ", department=" + this.department
-                + ", projectList=" + this.projectList + "]";
+                + ", projectList=" + this.projectList + ", company=" + this.company + ", laptop=" + this.laptop + "]";
     }
 
 }

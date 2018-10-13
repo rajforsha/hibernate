@@ -7,9 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
+import com.raj.shashi.domain.Company;
 import com.raj.shashi.domain.Department;
 import com.raj.shashi.domain.Employee;
+import com.raj.shashi.domain.Laptop;
 import com.raj.shashi.domain.Project;
 
 /**
@@ -27,7 +30,9 @@ public class MainApplication {
 
     static {
         sessionFactory = new Configuration().configure().buildSessionFactory();
+
     }
+
 
     public static void saveEmployee() {
 
@@ -49,11 +54,26 @@ public class MainApplication {
         projectList.add(p1);
         projectList.add(p2);
 
+        Company company = new Company();
+        company.setCompanyName("SAP");
+
+        List<Laptop> lapList = new ArrayList<>();
+        Laptop laptop1 = new Laptop();
+        laptop1.setLaptopName("MAC");
+
+        Laptop laptop2 = new Laptop();
+        laptop2.setLaptopName("HP");
+
+        lapList.add(laptop1);
+        lapList.add(laptop2);
+
         // Employee
         Employee e = new Employee();
         e.setEmpoloyeeName("Shashi");
         e.setDepartment(d);
         e.setProjectList(projectList);
+        e.setCompany(company);
+        e.setLaptop(lapList);
 
         Session session = sessionFactory.openSession();
 
@@ -63,18 +83,25 @@ public class MainApplication {
 
         t.commit();
 
-        sessionFactory.close();
+        session.close();
+
+       // sessionFactory.close();
     }
 
     public static void getEmployee() {
 
-        Session session = sessionFactory.getCurrentSession();
-        Transaction t = session.beginTransaction();
+        Session session = sessionFactory.openSession();
+        Query<Employee> query=session.createQuery("From Employee");
+        List<Employee> list=query.list();
+        list.forEach(val->{
+            System.out.println(val);
+        });
 
     }
 
     public static void main(String[] args) {
         saveEmployee();
+        getEmployee();
     }
 
 }

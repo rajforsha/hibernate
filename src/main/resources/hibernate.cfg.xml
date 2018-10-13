@@ -14,5 +14,7 @@
 		<mapping class="com.raj.shashi.domain.Employee" />
 		<mapping class="com.raj.shashi.domain.Department" />
 		<mapping class="com.raj.shashi.domain.Project" />
+		<mapping class="com.raj.shashi.domain.Company" />
+		<mapping class="com.raj.shashi.domain.Laptop" />
 	</session-factory>
 </hibernate-configuration>
